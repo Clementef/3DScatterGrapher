@@ -1,2 +1,2 @@
 # 3DScatterGrapher
-##Graphs a bunch of points
+## Graphs a bunch of points
