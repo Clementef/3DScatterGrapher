@@ -8,6 +8,8 @@ var rotateAcc;
 var rotateVel;
 var rotatePos;
 
+//correlated points variables
+var correlatedNoise;
 
 
 //textures shit
@@ -25,7 +27,8 @@ function setup() {
     } else {
         maxBound = width/2;
     }
-    points = pointGenerator(500);
+    correlatedNoise = 25;
+    points = correlatedPoints(300);
 
     var rotateAcc = createVector(0,0);
     var rotateVel = createVector(0,0);
@@ -36,9 +39,13 @@ function setup() {
 
 function draw() {
     background(51);
+
+    rotateEngine()
+
     push();
     rotateX(mouseY/100);
     rotateY(mouseX/100);
+
     for (var i = 0; i < points.length; i++) {
         points[i].show();
     }
@@ -56,7 +63,7 @@ function draw() {
     pop();
 }
 
-function Box(x,y,z) {
+function Point(x,y,z) {
     this.x = x;
     this.y = y
     this.z = z;
@@ -72,10 +79,21 @@ function Box(x,y,z) {
     }
 }
 
+function correlatedPoints(n) {
+    generated = [];
+    for (i=0; i<n; i++) {
+        xCoord = random(-maxBound,maxBound);
+        yCoord = random(-maxBound,maxBound);
+        zCoord = (.5 * xCoord) + (.5 * yCoord);
+        generated.push(new Point(constrain(xCoord + random(-correlatedNoise,correlatedNoise),-maxBound,maxBound), constrain(zCoord + random(-correlatedNoise,correlatedNoise),-maxBound,maxBound), constrain(zCoord + random(-correlatedNoise,correlatedNoise),-maxBound,maxBound)));
+        }
+    return generated;
+}
+
 function pointGenerator(n){
     generated = [];
     for (i=0; i < n; i++) {
-        generated.push(new Box(random(-maxBound,maxBound),random(-maxBound,maxBound),random(-maxBound,maxBound)));
+        generated.push(new Point(random(-maxBound,maxBound),random(-maxBound,maxBound),random(-maxBound,maxBound)));
     }
     return generated;
 }
