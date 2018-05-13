@@ -1,16 +1,11 @@
 var maxBound;
 var points;
 
-//auto camera variables
-var pastPos;
-var newPos;
-var rotateAcc;
-var rotateVel;
-var rotatePos;
-
 //correlated points variables
 var correlatedNoise;
 
+//mouseclicked variables
+var correlated = false;
 
 //textures shit
 // var imgs = [];
@@ -27,24 +22,27 @@ function setup() {
     } else {
         maxBound = width/2;
     }
-    correlatedNoise = 25;
-    points = correlatedPoints(300);
+    correlatedNoise = maxBound/20;
+    points = pointGenerator(500);
+}
 
-    var rotateAcc = createVector(0,0);
-    var rotateVel = createVector(0,0);
-    var rotatePos = createVector(0,0);
-
-    pastPos = createVector(mouseX,mouseY);
+function mouseClicked() {
+    if (correlated === false) {
+        correlated = true;
+        points = correlatedPointGenerator(300);
+    } else {
+        correlated = false;
+        points = pointGenerator(500);
+    }
 }
 
 function draw() {
     background(51);
 
-    rotateEngine()
-
     push();
     rotateX(mouseY/100);
     rotateY(mouseX/100);
+
 
     for (var i = 0; i < points.length; i++) {
         points[i].show();
@@ -79,7 +77,7 @@ function Point(x,y,z) {
     }
 }
 
-function correlatedPoints(n) {
+function correlatedPointGenerator(n) {
     generated = [];
     for (i=0; i<n; i++) {
         xCoord = random(-maxBound,maxBound);
@@ -96,19 +94,6 @@ function pointGenerator(n){
         generated.push(new Point(random(-maxBound,maxBound),random(-maxBound,maxBound),random(-maxBound,maxBound)));
     }
     return generated;
-}
-
-function rotateEngine() {
-    newPos = createVector(mouseX,mouseY);
-    if (newPos == pastPos) {
-        rotateAcc += 0.1;
-        rotatePos += rotateVel;
-        rotateVel += rotateAcc;
-        rotateAcc *= 0;
-    } else {
-        rotateVel = 0;
-        rotateAcc = 0;
-    }
 }
 
 function distFromOrigin(x,y,z) {
