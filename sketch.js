@@ -40,8 +40,8 @@ function draw() {
     background(51);
 
     push();
-    rotateX(mouseY/100);
-    rotateY(mouseX/100);
+    rotateX(mouseY/100+height/2);
+    rotateY(mouseX/100+width/2);
 
 
     for (var i = 0; i < points.length; i++) {
