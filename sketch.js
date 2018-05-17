@@ -79,7 +79,7 @@ function Point(x,y,z) {
 
 function correlatedPointGenerator(n) {
     generated = [];
-    for (i=0; i<n; i++) {
+    for (var i = 0; i < n; i++) {
         xCoord = random(-maxBound,maxBound);
         yCoord = random(-maxBound,maxBound);
         zCoord = (.5 * xCoord) + (.5 * yCoord);
@@ -90,10 +90,17 @@ function correlatedPointGenerator(n) {
 
 function pointGenerator(n){
     generated = [];
-    for (i=0; i < n; i++) {
+    for (var i = 0; i < n; i++) {
         generated.push(new Point(random(-maxBound,maxBound),random(-maxBound,maxBound),random(-maxBound,maxBound)));
     }
     return generated;
+}
+
+function outlierGenerator(n) {
+    generated = [];
+    for (var i = 0; i < n; i++) {
+        
+    }
 }
 
 function distFromOrigin(x,y,z) {
